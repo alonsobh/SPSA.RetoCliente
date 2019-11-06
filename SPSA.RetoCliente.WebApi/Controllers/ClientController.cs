@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using SPSA.RetoCliente.BusinessComponent.Interface;
 using SPSA.RetoCliente.BusinessComponent.Interface.Factory;
@@ -13,14 +14,29 @@ namespace SPSA.RetoCliente.WebApi.Controllers
         {
 
         }
+
         [System.Web.Http.HttpPost, System.Web.Http.Route("creacliente")]
-        public void CreaCliente([FromBody]ClientSubmit clienteDto)
-            => BCClient.Value.Submit(clienteDto);
+        public ResponseResult CreaCliente([FromBody] ClientSubmit clienteDto)
+        {
+            var response = new ResponseResult();
+            response.IsCompleted = true;
+            try
+            {
+                BCClient.Value.Submit(clienteDto);
 
+            }
+            catch (Exception ex)
+            {
+                response.IsCompleted = false;
+                response.ErrorMessage = ex.Message;
+            }
 
-        [System.Web.Http.HttpGet, System.Web.Http.Route("listclientes")]
-        public IEnumerable<SPSA.RetoCliente.BusinessEntities.Client> ListClientes()
-            => BCClient.Value.GetClients();
+            return response;
+        }
+
+        [System.Web.Http.HttpGet, System.Web.Http.Route("listclientes/{edadMuerte}")]
+        public IEnumerable<SPSA.RetoCliente.BusinessEntities.Client> ListClientes(int edadMuerte)
+            => BCClient.Value.GetClients( edadMuerte);
 
         [System.Web.Http.HttpGet, System.Web.Http.Route("kpideclientes")]
         public KPIResult KpiDeClientes()

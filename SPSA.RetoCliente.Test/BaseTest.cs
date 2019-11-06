@@ -24,7 +24,7 @@ namespace SPSA.RetoCliente.Test
             ReplaceConfig(BusinessComponentsFactory.Current, $"{BusinessComponentUnity}.config");
             ReplaceConfig(DataAccessFactory.Current, $"{DataAccessUnity}.config");
      
-            var clientes = BCClient.Value.GetClients();
+            var clientes = BCClient.Value.GetClients(10);
             var i = clientes.Length;
             var newClient = new ClientSubmit
             {
@@ -34,7 +34,7 @@ namespace SPSA.RetoCliente.Test
             };
             
             BCClient.Value.Submit(newClient);
-            var clientesTMP = BCClient.Value.GetClients();
+            var clientesTMP = BCClient.Value.GetClients(10);
             Assert.AreEqual(clientes.Length + 1, clientesTMP.Length);
 
             var retreivedClient = clientesTMP.Last();

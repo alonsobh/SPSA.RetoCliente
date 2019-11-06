@@ -33,7 +33,7 @@ namespace SPSA.RetoCliente.Forms
 
         private void ReloadClients()
         {
-            clientes = BCClient.Value.GetClients();
+            clientes = BCClient.Value.GetClients((int)nudEdadMuerte.Value);
         }
 
         private KPIResult GetKPI()
@@ -45,10 +45,23 @@ namespace SPSA.RetoCliente.Forms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            BCClient.Value.Submit(new ClientSubmit { Names = txtNames.Text, LastNames = txtLastNames.Text, BirthDay = dtpBirthDate.Value });
+            try
+            {
+                BCClient.Value.Submit(new ClientSubmit
+                { Names = txtNames.Text, LastNames = txtLastNames.Text, BirthDay = dtpBirthDate.Value });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
             RefreshData();
         }
 
         private readonly BusinessComponentClass<IBCClient> BCClient = new BusinessComponentClass<IBCClient>();
+
+        private void btnRefrescar_Click(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
     }
 }

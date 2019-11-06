@@ -1,12 +1,12 @@
 ﻿using RestSharp;
 using SPSA.RetoCliente.BusinessComponent.Interface;
 using SPSA.RetoCliente.BusinessEntities;
+using System;
 
 namespace SPSA.RetoCliente.BusinessComponent
 {
     public class BCClientWebApi : IBCClient
     {
-        private string url = "http://localhost/SPSA.RetoCliente.WebApi/api/client/";
         public void Submit(ClientSubmit client)
         {
             var restClient = new RestClient(url + "/creacliente");
@@ -14,12 +14,15 @@ namespace SPSA.RetoCliente.BusinessComponent
             request.AddHeader("Content-Type", "application/json");
             request.AddParameter("undefined", Newtonsoft.Json.JsonConvert.SerializeObject(client), ParameterType.RequestBody);
             IRestResponse response = restClient.Execute(request);
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseResult>(response.Content);
+            if (!result.IsCompleted)
+                throw new Exception(result.ErrorMessage);
         }
 
 
-        public Client[] GetClients()
+        public Client[] GetClients(int edadMuerte)
         {
-            var client = new RestClient(url + "/listclientes");
+            var client = new RestClient(url + $"/listclientes/{edadMuerte}");
             var request = new RestRequest(Method.GET);
             IRestResponse response = client.Execute(request);
 
@@ -33,5 +36,6 @@ namespace SPSA.RetoCliente.BusinessComponent
             IRestResponse response = client.Execute(request);
             return Newtonsoft.Json.JsonConvert.DeserializeObject<KPIResult>(response.Content);
         }
+        protected virtual string url { get; } = "http://localhost/SPSA.RetoCliente.WebApi/api/client";
     }
 }

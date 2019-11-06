@@ -11,13 +11,20 @@ namespace SPSA.RetoCliente.BusinessComponent
     public class BCClient : IBCClient
     {
         public void Submit(ClientSubmit client)
-            => DACliente.Value.Submit(client);
+        {
+            if (string.IsNullOrEmpty(client.Names?.Trim()))
+                throw new Exception("Nombre es necesario");
+            if (string.IsNullOrEmpty(client.LastNames?.Trim()))
+                throw new Exception("Apellido es necesario");
+            if (client.BirthDay > DateTime.Now)
+                throw new Exception("Fecha Nacimiento no puede ser mayor a la fecha actual");
+            DACliente.Value.Submit(client);
+        }
 
-
-        public Client[] GetClients()
+        public Client[] GetClients(int edadMuerte)
         {
             var results = DACliente.Value.GetClients()
-                .Select(s => new Client { Names = s.Names, LastNames = s.LastNames, BirthDay = s.BirthDay })
+                .Select(s => new Client { Names = s.Names, LastNames = s.LastNames, BirthDay = s.BirthDay, ProbableDeathDay = s.BirthDay.AddYears(edadMuerte) })
                 .ToArray();
             var now = DateTime.Now;
             results.ForEach(r =>

@@ -45,6 +45,7 @@
     <Compile Include="Client.cs" />
     <Compile Include="KPIResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResponseResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

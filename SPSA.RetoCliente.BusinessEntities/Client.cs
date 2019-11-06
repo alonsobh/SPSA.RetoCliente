@@ -7,6 +7,7 @@ namespace SPSA.RetoCliente.BusinessEntities
         public string Names { get; set; }
         public string LastNames { get; set; }
         public DateTime BirthDay { get; set; }
+        public DateTime ProbableDeathDay { get; set; }
         public int Age { get; set; }
     }
 }

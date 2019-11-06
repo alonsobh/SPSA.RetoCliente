@@ -23,6 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPSA.RetoCliente.BusinessEn
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CofigFiles", "CofigFiles", "{4043DE00-6E3F-424D-BAC4-72731934A0C5}"
 	ProjectSection(SolutionItems) = preProject
+		ConfigFiles\UnityBCConfiguration.AWSApi.config = ConfigFiles\UnityBCConfiguration.AWSApi.config
 		ConfigFiles\UnityBCConfiguration.DirectCall.config = ConfigFiles\UnityBCConfiguration.DirectCall.config
 		ConfigFiles\UnityBCConfiguration.WebApi.config = ConfigFiles\UnityBCConfiguration.WebApi.config
 		ConfigFiles\UnityDAConfiguration.InMemory.config = ConfigFiles\UnityDAConfiguration.InMemory.config
